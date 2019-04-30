@@ -1,7 +1,8 @@
 /**
+
  * Physics Experiment
- * Author: Your Name and Carolyn Yao
- * Does this compile or finish running within 5 seconds? Y/N
+ * Author: Asim Shariff and Carolyn Yao
+ * Does this compile or finish running within 5 seconds? Y
  */
 
 /**
@@ -11,7 +12,7 @@
  * solution.
  *
  * You will only be graded on code you add to the scheduleExperiments method.
- * Do not mess with the existing formatting and identation.
+ * Do not mess with the existing formatting and indentation.
  * You don't need to use the helper methods, but if they come in handy setting
  * up a custom test case, feel free to use them.
  */
@@ -36,9 +37,58 @@ public class PhysicsExperiment {
     // Your scheduleTable is initialized as all 0's so far. Your code will put 1's
     // in the table in the right places based on the return description
     int[][] scheduleTable = new int[numStudents + 1][numSteps + 1];
-
+    
     // Your code goes here
-
+    int currentRow=1; //index of current student that we are considering assigning to a certain step
+    int currentCol=1; //index of the current step
+    int remainSteps= numSteps; 
+    while(remainSteps>0) {   	
+    	//if the current student is not signed up for the current step, 
+    	//then we find the next student that will do the most consecutive steps, including the current step
+    	if(signUpTable[currentRow][currentCol]==0) {
+    		//finds the student that will do the most consecutive steps in a row
+    		if(currentCol!=numSteps) {
+    			int consecutive1=0; //keeps track of highest number of consecutive 1's or student that will do most steps in a row
+    			int studentIndex=1; //the index of the student that is willing to do the most consecutive steps
+    			//we have to check every student, to find the student that will do the most steps in a row
+    			for(int row=1; row<=numStudents; row++) {
+    				int currentNumConsecutive=0; //current highest consecutive steps that the student will do
+    				//counts number of consecutive 1's or steps
+    				for(int col=currentCol; col<=numSteps; col++) {
+    					//if we find a zero, then were at the end of the consecutive 1's
+    					if(signUpTable[row][col]==0) {
+    						break;
+    					}
+    					else {
+    						currentNumConsecutive++;
+    					}
+    					//if the current highest consecutive steps is higher than the overall
+    					//then update overall and update the student that will do the highest consecutive steps
+    					if(currentNumConsecutive > consecutive1) {
+    						consecutive1=currentNumConsecutive;
+    						studentIndex=row;
+    					}
+    				}
+    			}
+    			currentRow= studentIndex; //update the current row to the student that is willing to do the most consecutive steps
+    		}
+    		// if currentCol == numSteps, this means there is only one step left, so we check the next student that can do the step
+    		else {
+    			//if the current student we are currently checking is the last in the table, then we go back to the first student
+    			if(currentRow==numStudents)
+    				currentRow=1;
+    			//check the next student
+    			else
+    				currentRow++;
+    		}
+    	}
+    	//the student is signed up for the current step
+    	else {
+    		scheduleTable[currentRow][currentCol]=1; //sign up the student for the current step
+    		currentCol++; //we only assign one student per step, so we move onto the next step
+    		remainSteps--; //decrease the remaining number of steps
+    	}
+    }
     return scheduleTable;
   }
 
