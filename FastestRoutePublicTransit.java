@@ -34,22 +34,22 @@ public class FastestRoutePublicTransit {
   ) {
     // Your code along with comments here. Feel free to borrow code from any
     // of the existing method. You can also make new helper methods.
-	  int path[] = shortestPath(lengths, S, T); //finds the shortest path from starting station to destination
-	  int index= first[0].length-1; 
-	  //there are -1 as placeholder, so we'll traverse backwards to find the beginning of the shortest path 
-	  while(path[index]!=S && index>0) {
-		  index--;
-	  }
+    int path[] = shortestPath(lengths, S, T); //finds the shortest path from starting station to destination
+    int index= first[0].length-1; 
+    //there are -1 as placeholder, so we'll traverse backwards to find the beginning of the shortest path 
+    while(path[index]!=S && index>0) {
+       index--;
+    }
 
-	  int shortestTime=0; //keeps track of the shortest time it takes to get from starting station to destination station
-	  int nextTrainTime;  //finds the nextTrainTime plus the time it takes for the train to travel that edge
-	  int currentTime=startTime; 
-	  for(int i=index; i>=1; i--) {
-		  nextTrainTime=nextTrain(currentTime, lengths, first, freq, path, i);
-		  shortestTime= shortestTime + (nextTrainTime - currentTime);
-		  currentTime=nextTrainTime;
-	  }
-	  System.out.println("The shortest time it will take to get from station " + S + " to station " + T + " is: " + shortestTime+ " minutes.");
+    int shortestTime=0; //keeps track of the shortest time it takes to get from starting station to destination station
+    int nextTrainTime;  //finds the nextTrainTime plus the time it takes for the train to travel that edge
+    int currentTime=startTime; 
+    for(int i=index; i>=1; i--) {
+       nextTrainTime=nextTrain(currentTime, lengths, first, freq, path, i);
+       shortestTime= shortestTime + (nextTrainTime - currentTime);
+       currentTime=nextTrainTime;
+    }
+    System.out.println("The shortest time it will take to get from station " + S + " to station " + T + " is: " + shortestTime+ " minutes.");
     return shortestTime;
   }
   
